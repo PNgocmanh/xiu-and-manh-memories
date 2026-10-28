@@ -261,6 +261,7 @@
   .mem-count{display:block;margin-top:2px;}
   .mem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 14px;max-width:560px;margin:6px auto 0;}
   @media(min-width:640px){.mem-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:640px){.mem-grid.cols-2{grid-template-columns:repeat(2,1fr);max-width:460px;}} /* tránh lẻ một tấm ở hàng cuối */
   .mem{position:relative;border:none;background:none;padding:0;font:inherit;transform:rotate(-2.5deg);transition:transform .2s ease;}
   .mem:nth-child(even){transform:rotate(2deg) translateY(8px);}
   .mem:active{transform:scale(.96);}
@@ -286,6 +287,8 @@
   .gal-kicker:empty{display:none;}
   .gal-body h3{font-family:'Playfair Display',serif;font-size:23px;text-align:center;margin:0 34px 8px;line-height:1.3;}
   .gal-body>p{font-size:14.5px;line-height:1.75;text-align:center;color:var(--ink-soft);margin-bottom:18px;}
+  .gal-body>p:empty{display:none;}
+  .gal-body h3:has(+p:empty){margin-bottom:16px;}
   .gal-slider{position:relative;}
   .gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:18px;scrollbar-width:none;
     overscroll-behavior-x:contain;}
@@ -304,6 +307,7 @@
   .gal-nav.next{right:8px;}
   .gal-foot{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;}
   .gal-dots{display:flex;gap:6px;}
+  .gal-dots[hidden]{display:none;}
   .gal-dots button{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:rgba(122,59,59,.25);transition:all .25s ease;}
   .gal-dots button.on{width:20px;border-radius:4px;background:var(--accent);}
   .gal-num{font-size:12px;font-weight:700;color:var(--ink-soft);}
@@ -347,8 +351,7 @@
   .ans-no{border:1.5px solid rgba(90,20,38,.2);color:var(--ink-soft);background:#fff;touch-action:none;
     -webkit-user-select:none;user-select:none;}
   .ans-no.free{position:absolute;margin:0;transition:left .28s ease,top .28s ease;}
-  .answers.done{min-height:0;}
-  .ans-done{font-family:'Dancing Script',cursive;font-weight:700;font-size:28px;color:var(--accent);}
+  .ans-done{font-family:'Dancing Script',cursive;font-weight:700;font-size:28px;color:var(--accent);white-space:nowrap;}
   .yes-stamp{display:none;text-align:center;margin-top:28px;}
   .yes-stamp.show{display:block;animation:keyIn .7s ease both;}
   .yes-stamp>p{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(24px,6.5vw,32px);margin-bottom:16px;
@@ -360,23 +363,24 @@
   .stats b{display:block;font-family:'Playfair Display',serif;font-size:24px;color:var(--accent);}
   .stats span{font-size:11.5px;font-weight:600;}
   .heart-count{text-align:center;font-weight:700;font-size:16px;margin:-6px 0 12px;}
-  .months-wrap{position:relative;margin:0 -20px;}
-  .months{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 12% 26px;scrollbar-width:none;}
-  .months::-webkit-scrollbar{display:none;}
-  .month{flex:0 0 min(280px,76%);scroll-snap-align:center;padding:12px 12px 16px;}
-  .month .ph{aspect-ratio:4/3;border-radius:16px;cursor:pointer;}
-  .m-label{display:block;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--accent);margin:12px 0 2px;text-transform:uppercase;}
-  .month h3{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:4px;}
-  .month p{font-size:13.5px;line-height:1.6;color:var(--ink-soft);}
+  .t5 .mem{cursor:pointer;}
+  .mem figcaption small{display:block;font-family:'Quicksand',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;
+    text-transform:uppercase;color:var(--accent);margin-bottom:1px;}
   .hid-heart{position:absolute;width:36px;height:36px;margin:-18px 0 0 -18px;border:none;background:none;font-size:19px;
     color:rgba(255,255,255,.85);text-shadow:0 1px 4px rgba(69,48,110,.55);animation:peek 2.8s ease-in-out infinite;}
   .hid-heart.got{color:#ff5c8a;animation:none;transform:scale(1.3);text-shadow:0 0 12px rgba(255,92,138,.9);}
   @keyframes peek{0%,100%{opacity:.3;transform:scale(.85)}50%{opacity:.85;transform:scale(1.05)}}
-  .m-nav{position:absolute;top:38%;z-index:2;width:40px;height:40px;border-radius:50%;border:none;background:#fff;
-    color:var(--accent);font-size:22px;font-weight:700;box-shadow:0 8px 22px var(--shadow);display:none;}
-  .m-nav.prev{left:12px;}
-  .m-nav.next{right:12px;}
-  @media(hover:hover){.m-nav{display:block;}}
+  /* trái tim vàng thứ 13 (lời nhắn ẩn), không tính vào 12 tim */
+  .gold-heart{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border:none;background:none;font-size:14px;
+    color:#ffd27a;text-shadow:0 0 6px rgba(255,190,80,.9);animation:peek 3.6s ease-in-out infinite;animation-delay:-1.2s;}
+
+  /* LỜI NHẮN ẨN: đốm sáng gợi ý chỗ giấu, miếng dán ở chương 3 */
+  .glint{position:absolute;top:-8px;right:-8px;z-index:4;font-size:12px;font-style:normal;line-height:1;pointer-events:none;
+    opacity:0;animation:glint 7s ease-in-out infinite;}
+  @keyframes glint{0%,84%,100%{opacity:0;transform:scale(.3) rotate(0)}89%{opacity:1;transform:scale(1.1) rotate(20deg)}94%{opacity:0;transform:scale(.5) rotate(40deg)}}
+  .sticker{position:absolute;left:-6px;bottom:38px;z-index:2;font-size:22px;line-height:1;cursor:pointer;transform:rotate(-18deg);
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));}
+  .avatar{cursor:pointer;}
 
   /* CHƯƠNG 6 - hiện tại */
   .pink-star{position:absolute;right:6%;top:-6px;width:40px;height:40px;border:none;background:none;font-size:20px;
@@ -488,7 +492,7 @@
 <main id="main">
   <header class="hero t1" id="hero" data-tone="1">
     <div class="hero-kicker">31.01.2026 — 31.01.2027</div>
-    <h1>Quyên <button class="hero-heart" id="heroHeart" type="button" aria-label="Trái tim">♥</button> Mạnh</h1>
+    <h1>1st <button class="hero-heart" id="heroHeart" type="button" aria-label="Trái tim">♥</button><br>Anniversary</h1>
     <p class="hero-sub">Một năm, như một ngày</p>
     <div class="hero-count"><b id="heroDays">0</b><span>ngày bên nhau</span></div>
     <nav class="hero-steps" id="heroSteps" aria-label="Các chương"></nav>
@@ -582,7 +586,7 @@ const CONTENT={
           {from:'me',  text:'Mình làm quen được hông?'},
         ],
         replies:['Được chứ 😊','Hihi, okiee','Ừm… cũng được 🙈'],
-        after:'Yeahhh 🥳 Vậy là mình quen nhau rồi nha!',
+        after:'Yeahhh 🥳 Vậy mình cho nhau cơ hội nhé!',
       },
     },
     { // 2
@@ -600,13 +604,25 @@ const CONTENT={
       hint:'Vẫn còn kỷ niệm chưa mở đó, chạm vào từng tấm ảnh nhé 📷',
       // mỗi kỷ niệm: ảnh đầu tiên làm ảnh bìa, chạm vào sẽ mở danh sách ảnh và đoạn chữ ('' = ảnh mẫu)
       memories:[
-        {title:'Những lần đưa đón', text:'Từ hôm đó anh thành “tài xế riêng” của em. Đoạn đường nào có em ngồi phía sau cũng thấy ngắn lại.', photos:['','','']},
-        {title:'Đi dạo buổi tối', text:'Đi thật chậm thôi, để câu chuyện được dài thêm một chút.', photos:['','']},
-        {title:'Những bữa ăn', text:'Em ăn gì anh cũng thấy ngon, chắc tại người ngồi đối diện là em.', photos:['','','','']},
-        {title:'Giáng sinh đầu tiên', text:'Phố đông như vậy mà anh chỉ thấy mỗi em.', photos:['','','']},
-        {title:'Chuyện không hồi kết', text:'Nói chuyện tới khuya rồi mà vẫn còn chuyện để kể.', photos:['','']},
-        {title:'Khúc này mê em lắm rồi', text:'Đến đây thì anh biết mình thương em thật rồi.', photos:['','','']},
+        {title:'Những lần gặp gỡ', text:'Đi thật chậm thôi, để câu chuyện được dài thêm một chút.',
+          photos:['images/ch3-gap-go-1.jpg','images/ch3-gap-go-2.jpg','images/ch3-gap-go-3.jpg','images/ch3-gap-go-4.jpg',
+            'images/ch3-gap-go-5.jpg','images/ch3-gap-go-6.jpg','images/ch3-gap-go-7.jpg','images/ch3-gap-go-8.jpg',
+            'images/ch3-gap-go-9.jpg','images/ch3-gap-go-10.jpg','images/ch3-gap-go-11.jpg','images/ch3-gap-go-12.jpg',
+            'images/ch3-gap-go-13.jpg','images/ch3-gap-go-14.jpg']},
+        {title:'Đi ăn thôi', text:'Em ăn gì anh cũng thấy ngon, chắc tại người ngồi đối diện là em.',
+          photos:['images/ch3-di-an-1.jpg','images/ch3-di-an-2.jpg','images/ch3-di-an-3.jpg','images/ch3-di-an-4.jpg',
+            'images/ch3-di-an-5.jpg','images/ch3-di-an-6.jpg','images/ch3-di-an-7.jpg','images/ch3-di-an-8.jpg',
+            'images/ch3-di-an-9.jpg','images/ch3-di-an-10.jpg','images/ch3-di-an-11.jpg','images/ch3-di-an-12.jpg',
+            'images/ch3-di-an-13.jpg']},
+        {title:'Giáng sinh đầu tiên', text:'Phố đông như vậy mà anh chỉ thấy mỗi em.',
+          photos:['images/ch3-giang-sinh-1.jpg','images/ch3-giang-sinh-2.jpg','images/ch3-giang-sinh-3.jpg','images/ch3-giang-sinh-4.jpg','images/ch3-giang-sinh-5.jpg',
+            'images/ch3-giang-sinh-6.jpg']},
+        {title:'Thể dục thể thao', text:'Từ chạy bộ, cầu lông đến bắn cung, môn nào có em là anh chơi hết mình 🏃‍♀️🏸🎯',
+          photos:['images/ch3-the-thao-1.jpg','images/ch3-the-thao-2.jpg','images/ch3-the-thao-3.jpg','images/ch3-the-thao-4.jpg',
+            'images/ch3-the-thao-5.jpg','images/ch3-the-thao-6.jpg','images/ch3-the-thao-7.jpg','images/ch3-the-thao-8.jpg',
+            'images/ch3-the-thao-9.jpg','images/ch3-the-thao-10.jpg','images/ch3-the-thao-11.jpg','images/ch3-the-thao-12.jpg']},
       ],
+      stickerOn:'Giáng sinh đầu tiên',   // tên kỷ niệm có miếng dán 💌 (lời nhắn ẩn)
     },
     { // 4
       title:'Thổ lộ', time:'Hoàng hôn', icon:'🌇', date:'31.01.2026',
@@ -620,28 +636,46 @@ const CONTENT={
       // chữ trên nút "Không đồng ý" đổi dần mỗi lần nó nhảy đi chỗ khác
       noTexts:['Chắc chưa? 🤔','Không bấm được đâu 🙈','Bấm Đồng ý đi mà 🥺','Nút này hỏng rồi 😜','Thôi mà… 💕'],
       yes:'Em nói “OKAY” 💞',
-      photos:[{img:'',cap:'Hihi <3'},{img:'',cap:'Ngày đầu tiên'},{img:'',cap:'Của nhau rồi'}],
+      photos:[{img:'images/ch4-1.jpg',cap:'Hihi <3'},{img:'images/ch4-2.jpg',cap:'Em xinh'},{img:'images/ch4-3.jpg',cap:'Của nhau rồi'}],
     },
     { // 5
       title:'Đồng hành', time:'Chạng vạng', icon:'🌆', date:'02.2026 — 01.2027',
       story:'Rồi những ngày cùng nhau bắt đầu. Mười hai tháng và hàng vạn khoảnh khắc anh muốn giữ mãi.',
       music:{src:'music/5-dong-hanh.mp3', name:'Bài hát chương 5'},
       hint:'Trái tim nhỏ đang trốn trong từng tấm ảnh, nhìn kỹ nha 🔍',
-      stats:[{n:'12',t:'tháng'},{n:'52',t:'tuần'},{n:'365',t:'ngày'},{n:'∞',t:'nụ cười'}],
+      stats:[{n:'12',t:'tháng'},{n:'52',t:'tuần'},{n:'365',t:'ngày'},{n:'∞',t:'nụ cười'}],   // chạm ∞ mở một lời nhắn ẩn
+      goldHeart:{month:7,x:72,y:58},   // trái tim vàng thứ 13 (lời nhắn ẩn): tháng thứ mấy (tính từ 0) và vị trí trên ảnh (%)
       // mỗi tháng: ảnh đầu tiên làm ảnh bìa, chạm vào ảnh sẽ mở modal lướt ảnh ('' = ảnh mẫu)
+      // muốn có tiêu đề/đoạn chữ riêng cho tháng nào thì thêm title:'…', text:'…'
       months:[
-        {m:'Tháng 2 · 2026',  title:'Valentine đầu tiên', text:'Lần đầu có người để tặng hoa ngày 14/2 🌹', photos:['','','']},
-        {m:'Tháng 3 · 2026',  title:'Quốc tế phụ nữ',     text:'Ngày 8/3 đầu tiên của tụi mình 💐', photos:['','']},
-        {m:'Tháng 4 · 2026',  title:'Photobooth đôi mình', text:'Đi chụp thêm photobooth đi mà 📸', photos:['','','','']},
-        {m:'Tháng 5 · 2026',  title:'Khi trời giông bão',  text:'Ướt hết mà vẫn cười được =)))', photos:['','']},
-        {m:'Tháng 6 · 2026',  title:'Vòng tay đôi',        text:'Vòng tay xinh mờ phải hem 💍', photos:['','','']},
-        {m:'Tháng 7 · 2026',  title:'Phố đi bộ',           text:'Hôm đó em xinh quá đi', photos:['','','','']},
-        {m:'Tháng 8 · 2026',  title:'Sinh nhật em',        text:'Bong bóng, bánh kem và một điều ước 🎂', photos:['','','']},
-        {m:'Tháng 9 · 2026',  title:'Một chuyến đi',       text:'Đi đâu đó thật xa, chỉ có hai đứa mình', photos:['','']},
-        {m:'Tháng 10 · 2026', title:'Ngày mưa',            text:'Chung một chiếc ô ☔', photos:['','','']},
-        {m:'Tháng 11 · 2026', title:'Một năm gặp nhau',    text:'Tròn một năm từ buổi gặp đầu tiên', photos:['','']},
-        {m:'Tháng 12 · 2026', title:'Giáng sinh thứ hai',  text:'Lần này anh đã biết em thích quà gì 🎁', photos:['','','','']},
-        {m:'Tháng 1 · 2027',  title:'Đếm ngược',           text:'Chỉ còn vài ngày nữa là tròn một năm 💜', photos:['','','']},
+        {m:'Tháng 2 · 2026', photos:['images/ch5-thang-02-1.jpg','images/ch5-thang-02-2.jpg','images/ch5-thang-02-3.jpg','images/ch5-thang-02-4.jpg',
+            'images/ch5-thang-02-5.jpg','images/ch5-thang-02-6.jpg','images/ch5-thang-02-7.jpg','images/ch5-thang-02-8.jpg',
+            'images/ch5-thang-02-9.jpg','images/ch5-thang-02-10.jpg','images/ch5-thang-02-11.jpg','images/ch5-thang-02-12.jpg',
+            'images/ch5-thang-02-13.jpg','images/ch5-thang-02-14.jpg','images/ch5-thang-02-15.jpg']},
+        {m:'Tháng 3 · 2026', photos:['images/ch5-thang-03-1.jpg','images/ch5-thang-03-2.jpg','images/ch5-thang-03-3.jpg','images/ch5-thang-03-4.jpg',
+            'images/ch5-thang-03-5.jpg','images/ch5-thang-03-6.jpg','images/ch5-thang-03-7.jpg','images/ch5-thang-03-8.jpg',
+            'images/ch5-thang-03-9.jpg']},
+        {m:'Tháng 4 · 2026', photos:['images/ch5-thang-04-1.jpg','images/ch5-thang-04-2.jpg','images/ch5-thang-04-3.jpg','images/ch5-thang-04-4.jpg',
+            'images/ch5-thang-04-5.jpg','images/ch5-thang-04-6.jpg','images/ch5-thang-04-7.jpg','images/ch5-thang-04-8.jpg',
+            'images/ch5-thang-04-9.jpg','images/ch5-thang-04-10.jpg','images/ch5-thang-04-11.jpg','images/ch5-thang-04-12.jpg',
+            'images/ch5-thang-04-13.jpg','images/ch5-thang-04-14.jpg','images/ch5-thang-04-15.jpg','images/ch5-thang-04-16.jpg',
+            'images/ch5-thang-04-17.jpg','images/ch5-thang-04-18.jpg','images/ch5-thang-04-19.jpg','images/ch5-thang-04-20.jpg',
+            'images/ch5-thang-04-21.jpg','images/ch5-thang-04-22.jpg','images/ch5-thang-04-23.jpg','images/ch5-thang-04-24.jpg',
+            'images/ch5-thang-04-25.jpg','images/ch5-thang-04-26.jpg','images/ch5-thang-04-27.jpg','images/ch5-thang-04-28.jpg',
+            'images/ch5-thang-04-29.jpg','images/ch5-thang-04-30.jpg','images/ch5-thang-04-31.jpg','images/ch5-thang-04-32.jpg',
+            'images/ch5-thang-04-33.jpg','images/ch5-thang-04-34.jpg','images/ch5-thang-04-35.jpg']},
+        {m:'Tháng 5 · 2026', photos:['images/ch5-thang-05-1.jpg','images/ch5-thang-05-2.jpg','images/ch5-thang-05-3.jpg','images/ch5-thang-05-4.jpg',
+            'images/ch5-thang-05-5.jpg','images/ch5-thang-05-6.jpg','images/ch5-thang-05-7.jpg','images/ch5-thang-05-8.jpg',
+            'images/ch5-thang-05-9.jpg','images/ch5-thang-05-10.jpg','images/ch5-thang-05-11.jpg','images/ch5-thang-05-12.jpg',
+            'images/ch5-thang-05-13.jpg','images/ch5-thang-05-14.jpg','images/ch5-thang-05-15.jpg','images/ch5-thang-05-16.jpg']},
+        {m:'Tháng 6 · 2026', photos:['','','']},
+        {m:'Tháng 7 · 2026', photos:['','','','']},
+        {m:'Tháng 8 · 2026', photos:['','','']},
+        {m:'Tháng 9 · 2026', photos:['','']},
+        {m:'Tháng 10 · 2026', photos:['','','']},
+        {m:'Tháng 11 · 2026', photos:['','']},
+        {m:'Tháng 12 · 2026', photos:['','','','']},
+        {m:'Tháng 1 · 2027', photos:['','','']},
       ],
     },
     { // 6
@@ -662,11 +696,16 @@ const CONTENT={
       promises:['Cùng đi du lịch một nơi thật xa ✈️','Học nấu một món mới cùng nhau 🍳','Chụp thật nhiều ảnh photobooth 📸','Cùng ngắm bình minh trên biển 🌅','Giận nhau không quá một ngày 🤙'],
     },
   ],
-  // Lời nhắn ẩn: 1 = chạm trái tim ở đầu trang 5 lần, 2 = ngôi sao hồng ở chương 6, 3 = hạt mầm dưới gốc cây ở màn kết
+  // Lời nhắn ẩn: id dùng để lưu đã tìm hay chưa (đừng đổi), where chỉ để ghi nhớ chỗ giấu
   eggs:[
-    {title:'Trái tim biết đập', text:'Em vừa chạm vào tim anh 5 lần đó. Lần nào nó cũng đập nhanh hơn một chút 💓'},
-    {title:'Ngôi sao màu hồng', text:'Giữa cả bầu trời sao, em vẫn là ngôi sao anh tìm thấy đầu tiên ✨'},
-    {title:'Hạt mầm đầu tiên', text:'Hạt mầm ngày ấy vẫn còn ở đây. Mỗi năm mình lại tưới thêm một chút, em nhé 🌱'},
+    {id:'tim',          where:'Đầu trang: chạm trái tim giữa hai tên 5 lần', title:'Trái tim biết đập', text:'Em vừa chạm vào tim anh 5 lần đó. Lần nào nó cũng đập nhanh hơn một chút 💓'},
+    {id:'avatar',       where:'Chương 1: chạm ảnh đại diện trên khung chat', title:'Cái tên đầu tiên', text:'Lần đầu thấy tên em hiện lên trong tin nhắn, anh đã đọc đi đọc lại mấy lần liền 🙈'},
+    {id:'mieng-dan',    where:'Chương 3: miếng dán 💌 trên góc một tấm polaroid', title:'Miếng dán nhỏ', text:'Tấm ảnh nào có em, anh cũng muốn dán thêm một trái tim lên đó 💌'},
+    {id:'nang-chieu',   where:'Chương 3: chạm biểu tượng 🌤️ của chương 3 lần', title:'Nắng chiều', text:'Những buổi chiều đi cạnh em, nắng cũng dịu hơn hẳn 🌤️'},
+    {id:'vo-cuc',       where:'Chương 5: chạm “∞ nụ cười”', title:'Vô số nụ cười', text:'Anh thử đếm rồi, nhưng nụ cười của em nhiều quá, đếm không xuể 😄'},
+    {id:'tim-vang',     where:'Chương 5: trái tim vàng giấu trong một tấm ảnh', title:'Trái tim thứ 13', text:'Mười hai trái tim cho mười hai tháng. Trái tim thứ mười ba là của anh, gửi em giữ luôn nhé 💛'},
+    {id:'sao-hong',     where:'Chương 6: ngôi sao hồng cạnh tiêu đề', title:'Ngôi sao màu hồng', text:'Giữa cả bầu trời sao, em vẫn là ngôi sao anh tìm thấy đầu tiên ✨'},
+    {id:'hat-mam',      where:'Màn kết: hạt mầm dưới gốc cây', title:'Hạt mầm đầu tiên', text:'Hạt mầm ngày ấy vẫn còn ở đây. Mỗi năm mình lại tưới thêm một chút, em nhé 🌱'},
   ],
 };
 
@@ -720,6 +759,7 @@ function openGallery(m,onClose,tone='t3',kicker=''){
   $('#galKicker').textContent=kicker; $('#galTitle').textContent=m.title; $('#galText').textContent=m.text;
   const track=$('#galTrack'), dots=$('#galDots');
   track.innerHTML=''; dots.innerHTML='';
+  dots.hidden=m.photos.length>15; // nhiều ảnh quá thì chỉ hiện số "x / n" cho gọn
   m.photos.forEach((p,i)=>{
     const s=document.createElement('div'); s.className='gal-slide';
     if(p) s.style.setProperty('--bg',`url("${encodeURI(p)}")`);
@@ -751,6 +791,8 @@ function closeGallery(){
 const STORE_KEY='xm-hanh-trinh-31-01-2027';
 const store=(()=>{ try{ return JSON.parse(localStorage.getItem(STORE_KEY))||{}; }catch(e){ return {}; } })();
 if(!Array.isArray(store.eggs)) store.eggs=[];
+// bản đầu lưu lời nhắn đã tìm bằng số thứ tự 0, 1, 2; giờ lưu bằng id
+store.eggs=store.eggs.map(e=>typeof e==='number'?['tim','sao-hong','hat-mam'][e]:e).filter(Boolean);
 function persist(){ if(PREVIEW_ALL) return; try{ localStorage.setItem(STORE_KEY,JSON.stringify(store)); }catch(e){} }
 // unlocked = chương cao nhất đã mở (7 = màn kết)
 let unlocked=PREVIEW_ALL?TOTAL+1:clamp(parseInt(store.u)||1,1,TOTAL+1);
@@ -888,7 +930,8 @@ const INIT={
     body.innerHTML=`<div class="phone"><div class="phone-top"><span class="avatar">${esc(title.charAt(0))}</span>
       <div><div class="phone-name">${esc(title)}</div><div class="phone-status">đang hoạt động</div></div></div>
       <div class="chat" aria-live="polite"><span class="chat-time">${esc(c.time)}</span></div><div class="replies"></div></div>`;
-    const chat=$('.chat',body), rep=$('.replies',body);
+    const chat=$('.chat',body), rep=$('.replies',body), av=$('.avatar',body);
+    eggSpot(av,'avatar'); av.addEventListener('click',()=>egg('avatar'));
     const side=from=>from==='me'?'right':'left';
     const add=(from,text,time)=>{
       if(time){ const s=document.createElement('span'); s.className='chat-time'; s.textContent=time; chat.appendChild(s); }
@@ -949,10 +992,21 @@ const INIT={
   3(sec,done){
     const ch=CH[2], body=$('.ch-body',sec), N=ch.memories.length;
     body.innerHTML=`<p class="game-tip">Chạm vào từng tấm ảnh để mở kỷ niệm nhé<b class="mem-count">Đã xem 0/${N}</b></p>
-      <div class="mem-grid">${ch.memories.map(m=>`<button class="mem" type="button" aria-label="Mở kỷ niệm: ${esc(m.title)}">
+      <div class="mem-grid${N%3?' cols-2':''}">${ch.memories.map(m=>`<button class="mem" type="button" aria-label="Mở kỷ niệm: ${esc(m.title)}">
         <figure class="polaroid"><div class="ph">${phInner(m.photos[0],m.title)}</div><figcaption>${esc(m.title)}</figcaption></figure>
-        <span class="mem-n">📷 ${m.photos.length}</span><span class="mem-seen" aria-hidden="true">✓</span></button>`).join('')}</div>`;
+        <span class="mem-n">📷 ${m.photos.length}</span><span class="mem-seen" aria-hidden="true">✓</span>
+        ${m.title===ch.stickerOn?'<span class="sticker" role="button" tabindex="0" aria-label="Một miếng dán nhỏ">💌</span>':''}</button>`).join('')}</div>`;
     const count=$('.mem-count',body), mems=$$('.mem',body), seen=new Set();
+    const st=$('.sticker',body);
+    if(st){
+      eggSpot(st,'mieng-dan');
+      const hit=e=>{ e.stopPropagation(); e.preventDefault(); egg('mieng-dan'); };
+      st.addEventListener('click',hit);
+      st.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') hit(e); });
+    }
+    const node=$('.ch-node',sec); let nodeTaps=0;
+    node.style.cursor='pointer'; eggSpot(node,'nang-chieu');
+    node.addEventListener('click',()=>{ if(++nodeTaps>=3){ nodeTaps=0; egg('nang-chieu'); } });
     const mark=i=>{ seen.add(i); mems[i].classList.add('seen'); count.textContent=`Đã xem ${seen.size}/${N}`; };
     if(done) mems.forEach((_,i)=>mark(i));
     mems.forEach((b,i)=>b.addEventListener('click',()=>{
@@ -982,7 +1036,7 @@ const INIT={
       setTimeout(()=>{ letter.classList.add('show'); setTimeout(()=>scrollToEl(letter),200); },1200);
     };
     const yes=anim=>{
-      ans.classList.add('done'); ans.innerHTML='<p class="ans-done">Đã đồng ý ❤</p>';
+      ans.className='answers'; ans.innerHTML='<p class="ans-done">Đã đồng ý ❤</p>';
       stamp.classList.add('show');
       if(anim){ fireworks(); setTimeout(()=>scrollToEl(stamp),700); setTimeout(()=>gateReady(4),1800); }
     };
@@ -1021,21 +1075,27 @@ const INIT={
     body.innerHTML=`<div class="stats">${ch.stats.map(s=>`<div><b>${esc(s.n)}</b><span>${esc(s.t)}</span></div>`).join('')}</div>
       <p class="game-tip">Mỗi tấm ảnh có giấu một trái tim nhỏ. Tìm đủ ${N} trái tim nhé</p>
       <p class="heart-count">💜 <b>0</b>/${N}</p>
-      <div class="months-wrap"><button class="m-nav prev" type="button" aria-label="Tháng trước">‹</button>
-        <div class="months">${ch.months.map((m,i)=>{ const [x,y]=HID[i%HID.length]; return `<article class="month card">
-          <div class="ph" role="button" tabindex="0" aria-label="Xem ảnh ${esc(m.m)}">${phInner(m.photos[0],m.title)}
-            <span class="mem-n">📷 ${m.photos.length}</span>
-            <button class="hid-heart" type="button" style="left:${x}%;top:${y}%" aria-label="Trái tim ẩn">♥</button></div>
-          <span class="m-label">${esc(m.m)}</span><h3>${esc(m.title)}</h3><p>${esc(m.text)}</p></article>`; }).join('')}</div>
-        <button class="m-nav next" type="button" aria-label="Tháng sau">›</button></div>`;
-    const cnt=$('.heart-count b',body), months=$('.months',body);
+      <div class="mem-grid">${ch.months.map((m,i)=>{ const [x,y]=HID[i%HID.length], G=ch.goldHeart;
+        // thẻ là div vì bên trong có nút trái tim (nút không lồng trong nút được)
+        return `<div class="mem" role="button" tabindex="0" aria-label="Xem ảnh ${esc(m.m)}">
+          <figure class="polaroid"><div class="ph">${phInner(m.photos[0],m.title||m.m)}
+            <button class="hid-heart" type="button" style="left:${x}%;top:${y}%" aria-label="Trái tim ẩn">♥</button>
+            ${G&&i===G.month?`<button class="gold-heart" type="button" style="left:${G.x}%;top:${G.y}%" aria-label="Một trái tim vàng">♥</button>`:''}</div>
+            <figcaption>${m.title?`<small>${esc(m.m)}</small>${esc(m.title)}`:esc(m.m)}</figcaption></figure>
+          <span class="mem-n">📷 ${m.photos.length}</span></div>`; }).join('')}</div>`;
+    const cnt=$('.heart-count b',body);
     let got=0;
     // chạm vào ảnh thì mở modal của tháng đó
-    $$('.month .ph',body).forEach((ph,i)=>{
-      const open=()=>openGallery(ch.months[i],null,'t5',ch.months[i].m);
-      ph.addEventListener('click',open);
-      ph.addEventListener('keydown',e=>{ if(e.target===ph&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); open(); } });
+    $$('.mem',body).forEach((c,i)=>{
+      const m=ch.months[i];
+      const open=()=>openGallery({title:m.title||m.m,text:m.text||'',photos:m.photos},null,'t5',m.title?m.m:'');
+      c.addEventListener('click',open);
+      c.addEventListener('keydown',e=>{ if(e.target===c&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); open(); } });
     });
+    const gh=$('.gold-heart',body);
+    if(gh) gh.addEventListener('click',e=>{ e.stopPropagation(); egg('tim-vang'); });
+    const inf=$$('.stats div',body).find(d=>$('b',d).textContent==='∞');
+    if(inf){ inf.style.position='relative'; inf.style.cursor='pointer'; eggSpot(inf,'vo-cuc'); inf.addEventListener('click',()=>egg('vo-cuc')); }
     $$('.hid-heart',body).forEach(h=>{
       if(done){ h.classList.add('got'); return; }
       h.addEventListener('click',e=>{
@@ -1046,16 +1106,13 @@ const INIT={
       });
     });
     if(done) cnt.textContent=N;
-    const stepBy=d=>months.scrollBy({left:d*($('.month',months).offsetWidth+14),behavior:'smooth'});
-    $('.m-nav.prev',body).addEventListener('click',()=>stepBy(-1));
-    $('.m-nav.next',body).addEventListener('click',()=>stepBy(1));
   },
 
   /* Chương 6: đếm ngày, thư kỷ niệm, đóng dấu lời hứa */
   6(sec,done){
     const ch=CH[5], L=ch.letter, body=$('.ch-body',sec);
     $('.ch-head',sec).insertAdjacentHTML('beforeend','<button class="pink-star" type="button" aria-label="Một ngôi sao nhỏ">✦</button>');
-    $('.pink-star',sec).addEventListener('click',()=>egg(1));
+    const star=$('.pink-star',sec); eggSpot(star,'sao-hong'); star.addEventListener('click',()=>egg('sao-hong'));
     body.innerHTML=`<div class="counter card"><p class="counter-t">Chúng mình đã bên nhau</p>
         <div class="counter-row">${[['d','ngày'],['h','giờ'],['m','phút'],['s','giây']].map(([k,t])=>`<div><b data-k="${k}">0</b><span>${t}</span></div>`).join('')}</div>
         <p class="counter-since">kể từ ${fmtDate(START)}</p></div>
@@ -1135,25 +1192,36 @@ function updateSteps(){
 function initHero(){
   $('#heroDays').textContent=Math.max(0,Math.floor((Date.now()-START.getTime())/864e5));
   $('#heroGo').addEventListener('click',()=>scrollToSection(Math.min(unlocked,TOTAL+1)));
-  let taps=0; const h=$('#heroHeart');
+  let taps=0; const h=$('#heroHeart'); eggSpot(h,'tim');
   h.addEventListener('click',()=>{
     h.classList.remove('pop'); void h.offsetWidth; h.classList.add('pop');
     burstFrom(h,['❤'],4);
-    if(++taps>=5){ taps=0; egg(0); }
+    if(++taps>=5){ taps=0; egg('tim'); }
   });
   h.addEventListener('animationend',()=>h.classList.remove('pop'));
   updateSteps();
 }
 
 /* ---------- LỜI NHẮN ẨN ---------- */
-function updateEggCount(){ $('#eggCount').textContent=`${store.eggs.length}/${CONTENT.eggs.length}`; }
-function egg(i){
-  const E=CONTENT.eggs[i], first=!store.eggs.includes(i);
-  if(first){ store.eggs.push(i); persist(); updateEggCount(); }
-  $('#noteTag').textContent=`Lời nhắn ẩn ${store.eggs.indexOf(i)+1}/${CONTENT.eggs.length}`;
+const foundEggs=()=>store.eggs.filter(id=>CONTENT.eggs.some(e=>e.id===id));
+function updateEggCount(){ $('#eggCount').textContent=`${foundEggs().length}/${CONTENT.eggs.length}`; }
+// gắn đốm lấp lánh gợi ý vào chỗ giấu lời nhắn (không gắn nếu đã tìm thấy)
+function eggSpot(el,id){
+  el.dataset.egg=id;
+  if(store.eggs.includes(id)) return;
+  if(getComputedStyle(el).position==='static') el.style.position='relative';
+  const g=document.createElement('i'); g.className='glint'; g.setAttribute('aria-hidden','true'); g.textContent='✨';
+  g.style.animationDelay=(-Math.random()*7).toFixed(1)+'s';
+  el.appendChild(g);
+}
+function egg(id){
+  const E=CONTENT.eggs.find(e=>e.id===id); if(!E) return;
+  const first=!store.eggs.includes(id);
+  if(first){ store.eggs.push(id); persist(); updateEggCount(); $$(`[data-egg="${id}"]>.glint`).forEach(g=>g.remove()); }
+  $('#noteTag').textContent=`Lời nhắn ẩn ${foundEggs().indexOf(id)+1}/${CONTENT.eggs.length}`;
   $('#noteTitle').textContent=E.title; $('#noteText').textContent=E.text;
   const m=$('#noteModal'); m.classList.add('show');
-  m._after=first&&store.eggs.length===CONTENT.eggs.length?()=>toast('Em tìm ra hết lời nhắn ẩn rồi đó 🥹',3500):null;
+  m._after=first&&foundEggs().length===CONTENT.eggs.length?()=>toast('Em tìm ra hết lời nhắn ẩn rồi đó 🥹',3500):null;
 }
 function closeNote(){ const m=$('#noteModal'); m.classList.remove('show'); if(m._after){ m._after(); m._after=null; } }
 
@@ -1615,7 +1683,7 @@ function initFinale(sec){
   box.insertAdjacentHTML('beforeend',FRUITS.map((_,i)=>`<button class="fruit" type="button" style="--fc:${FC[i]}" aria-label="Xem lại chương ${i+1}: ${esc(CH[i].title)}">${CH[i].icon}<small>${esc(CH[i].title)}</small></button>`).join('')
     +'<button class="root-seed" type="button" aria-label="Hạt mầm dưới gốc cây"></button>');
   $$('.fruit',box).forEach((f,i)=>f.addEventListener('click',()=>scrollToSection(i+1)));
-  $('.root-seed',box).addEventListener('click',()=>egg(2));
+  const rs=$('.root-seed',box); eggSpot(rs,'hat-mam'); rs.addEventListener('click',()=>egg('hat-mam'));
   function layout(){
     W=box.clientWidth; H=box.clientHeight; if(!W) return;
     dpr=Math.min(devicePixelRatio||1,2); cv.width=W*dpr; cv.height=H*dpr;
